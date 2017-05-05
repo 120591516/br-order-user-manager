@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empUser.CustomerRegistMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.pojo.empUser.CustomerRegist" >
+    <id column="customer_regist_id" property="customerRegistId" jdbcType="VARCHAR" />
+    <result column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR" />
+    <result column="customer_regist_password" property="customerRegistPassword" jdbcType="VARCHAR" />
+    <result column="customer_person" property="customerPerson" jdbcType="INTEGER" />
+    <result column="customer_person_id" property="customerPersonId" jdbcType="VARCHAR" />
+    <result column="customer_company" property="customerCompany" jdbcType="INTEGER" />
+    <result column="customer_company_id" property="customerCompanyId" jdbcType="VARCHAR" />
+    <result column="customer_regist_email" property="customerRegistEmail" jdbcType="INTEGER" />
+    <result column="customer_regist_sms" property="customerRegistSms" jdbcType="INTEGER" />
+    <result column="customer_regist_status" property="customerRegistStatus" jdbcType="INTEGER" />
+    <result column="customer_regist_create_time" property="customerRegistCreateTime" jdbcType="TIMESTAMP" />
+    <result column="customer_regist_edit_time" property="customerRegistEditTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    customer_regist_id, customer_info_id, customer_regist_password, customer_person, 
+    customer_person_id, customer_company, customer_company_id, customer_regist_email, 
+    customer_regist_sms, customer_regist_status, customer_regist_create_time, customer_regist_edit_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="br.order.user.pojo.empUser.CustomerRegistExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_regist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_regist
+    where customer_regist_id = #{customerRegistId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from customer_regist
+    where customer_regist_id = #{customerRegistId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="br.order.user.pojo.empUser.CustomerRegistExample" >
+    delete from customer_regist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="br.order.user.pojo.empUser.CustomerRegist" >
+    insert into customer_regist (customer_regist_id, customer_info_id, 
+      customer_regist_password, customer_person, 
+      customer_person_id, customer_company, customer_company_id, 
+      customer_regist_email, customer_regist_sms, 
+      customer_regist_status, customer_regist_create_time, 
+      customer_regist_edit_time)
+    values (#{customerRegistId,jdbcType=VARCHAR}, #{customerInfoId,jdbcType=VARCHAR}, 
+      #{customerRegistPassword,jdbcType=VARCHAR}, #{customerPerson,jdbcType=INTEGER}, 
+      #{customerPersonId,jdbcType=VARCHAR}, #{customerCompany,jdbcType=INTEGER}, #{customerCompanyId,jdbcType=VARCHAR}, 
+      #{customerRegistEmail,jdbcType=INTEGER}, #{customerRegistSms,jdbcType=INTEGER}, 
+      #{customerRegistStatus,jdbcType=INTEGER}, #{customerRegistCreateTime,jdbcType=TIMESTAMP}, 
+      #{customerRegistEditTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="br.order.user.pojo.empUser.CustomerRegist" useGeneratedKeys="true" keyProperty="customerRegistId">
+    insert into customer_regist
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerRegistId != null" >
+        customer_regist_id,
+      </if>
+      <if test="customerInfoId != null" >
+        customer_info_id,
+      </if>
+      <if test="customerRegistPassword != null" >
+        customer_regist_password,
+      </if>
+      <if test="customerPerson != null" >
+        customer_person,
+      </if>
+      <if test="customerPersonId != null" >
+        customer_person_id,
+      </if>
+      <if test="customerCompany != null" >
+        customer_company,
+      </if>
+      <if test="customerCompanyId != null" >
+        customer_company_id,
+      </if>
+      <if test="customerRegistEmail != null" >
+        customer_regist_email,
+      </if>
+      <if test="customerRegistSms != null" >
+        customer_regist_sms,
+      </if>
+      <if test="customerRegistStatus != null" >
+        customer_regist_status,
+      </if>
+      <if test="customerRegistCreateTime != null" >
+        customer_regist_create_time,
+      </if>
+      <if test="customerRegistEditTime != null" >
+        customer_regist_edit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerRegistId != null" >
+        #{customerRegistId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoId != null" >
+        #{customerInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRegistPassword != null" >
+        #{customerRegistPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPerson != null" >
+        #{customerPerson,jdbcType=INTEGER},
+      </if>
+      <if test="customerPersonId != null" >
+        #{customerPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCompany != null" >
+        #{customerCompany,jdbcType=INTEGER},
+      </if>
+      <if test="customerCompanyId != null" >
+        #{customerCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRegistEmail != null" >
+        #{customerRegistEmail,jdbcType=INTEGER},
+      </if>
+      <if test="customerRegistSms != null" >
+        #{customerRegistSms,jdbcType=INTEGER},
+      </if>
+      <if test="customerRegistStatus != null" >
+        #{customerRegistStatus,jdbcType=INTEGER},
+      </if>
+      <if test="customerRegistCreateTime != null" >
+        #{customerRegistCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerRegistEditTime != null" >
+        #{customerRegistEditTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="br.order.user.pojo.empUser.CustomerRegistExample" resultType="java.lang.Integer" >
+    select count(*) from customer_regist
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_regist
+    <set >
+      <if test="record.customerRegistId != null" >
+        customer_regist_id = #{record.customerRegistId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoId != null" >
+        customer_info_id = #{record.customerInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerRegistPassword != null" >
+        customer_regist_password = #{record.customerRegistPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerPerson != null" >
+        customer_person = #{record.customerPerson,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerPersonId != null" >
+        customer_person_id = #{record.customerPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerCompany != null" >
+        customer_company = #{record.customerCompany,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerCompanyId != null" >
+        customer_company_id = #{record.customerCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerRegistEmail != null" >
+        customer_regist_email = #{record.customerRegistEmail,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerRegistSms != null" >
+        customer_regist_sms = #{record.customerRegistSms,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerRegistStatus != null" >
+        customer_regist_status = #{record.customerRegistStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerRegistCreateTime != null" >
+        customer_regist_create_time = #{record.customerRegistCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerRegistEditTime != null" >
+        customer_regist_edit_time = #{record.customerRegistEditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_regist
+    set customer_regist_id = #{record.customerRegistId,jdbcType=VARCHAR},
+      customer_info_id = #{record.customerInfoId,jdbcType=VARCHAR},
+      customer_regist_password = #{record.customerRegistPassword,jdbcType=VARCHAR},
+      customer_person = #{record.customerPerson,jdbcType=INTEGER},
+      customer_person_id = #{record.customerPersonId,jdbcType=VARCHAR},
+      customer_company = #{record.customerCompany,jdbcType=INTEGER},
+      customer_company_id = #{record.customerCompanyId,jdbcType=VARCHAR},
+      customer_regist_email = #{record.customerRegistEmail,jdbcType=INTEGER},
+      customer_regist_sms = #{record.customerRegistSms,jdbcType=INTEGER},
+      customer_regist_status = #{record.customerRegistStatus,jdbcType=INTEGER},
+      customer_regist_create_time = #{record.customerRegistCreateTime,jdbcType=TIMESTAMP},
+      customer_regist_edit_time = #{record.customerRegistEditTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="br.order.user.pojo.empUser.CustomerRegist" >
+    update customer_regist
+    <set >
+      <if test="customerInfoId != null" >
+        customer_info_id = #{customerInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRegistPassword != null" >
+        customer_regist_password = #{customerRegistPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPerson != null" >
+        customer_person = #{customerPerson,jdbcType=INTEGER},
+      </if>
+      <if test="customerPersonId != null" >
+        customer_person_id = #{customerPersonId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCompany != null" >
+        customer_company = #{customerCompany,jdbcType=INTEGER},
+      </if>
+      <if test="customerCompanyId != null" >
+        customer_company_id = #{customerCompanyId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerRegistEmail != null" >
+        customer_regist_email = #{customerRegistEmail,jdbcType=INTEGER},
+      </if>
+      <if test="customerRegistSms != null" >
+        customer_regist_sms = #{customerRegistSms,jdbcType=INTEGER},
+      </if>
+      <if test="customerRegistStatus != null" >
+        customer_regist_status = #{customerRegistStatus,jdbcType=INTEGER},
+      </if>
+      <if test="customerRegistCreateTime != null" >
+        customer_regist_create_time = #{customerRegistCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerRegistEditTime != null" >
+        customer_regist_edit_time = #{customerRegistEditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where customer_regist_id = #{customerRegistId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="br.order.user.pojo.empUser.CustomerRegist" >
+    update customer_regist
+    set customer_info_id = #{customerInfoId,jdbcType=VARCHAR},
+      customer_regist_password = #{customerRegistPassword,jdbcType=VARCHAR},
+      customer_person = #{customerPerson,jdbcType=INTEGER},
+      customer_person_id = #{customerPersonId,jdbcType=VARCHAR},
+      customer_company = #{customerCompany,jdbcType=INTEGER},
+      customer_company_id = #{customerCompanyId,jdbcType=VARCHAR},
+      customer_regist_email = #{customerRegistEmail,jdbcType=INTEGER},
+      customer_regist_sms = #{customerRegistSms,jdbcType=INTEGER},
+      customer_regist_status = #{customerRegistStatus,jdbcType=INTEGER},
+      customer_regist_create_time = #{customerRegistCreateTime,jdbcType=TIMESTAMP},
+      customer_regist_edit_time = #{customerRegistEditTime,jdbcType=TIMESTAMP}
+    where customer_regist_id = #{customerRegistId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="br.order.user.mapper.empComDept.self.EnterpriseDepSelfMapper" >
+ 	<resultMap id="BaseResultMap" type="br.order.user.vo.empComDept.EnterpriseDepVo" >
+    <id column="enterprise_dep_id" property="enterpriseDepId" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+    <result column="enterprise_dep_name" property="enterpriseDepName" jdbcType="VARCHAR" />
+    <result column="enterprise_dep_level" property="enterpriseDepLevel" jdbcType="INTEGER" />
+    <result column="enterprise_dep_status" property="enterpriseDepStatus" jdbcType="INTEGER" />
+    <result column="enterprise_dep_create_time" property="enterpriseDepCreateTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_dep_edit_time" property="enterpriseDepEditTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_dep_edit_id" property="enterpriseDepEditId" jdbcType="BIGINT" />
+    <result column="enterprise_full_name" property="enterpriseFullName" jdbcType="VARCHAR" />
+    <result column="enterprise_simple_name" property="enterpriseSimpleName" jdbcType="VARCHAR" />
+    <result column="enterprise_code" property="enterpriseCode" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="getAllEnterpriseDep" resultMap="BaseResultMap" parameterType="br.order.user.vo.empComDept.EnterpriseDepVo">
+  	SELECT DISTINCT
+   ed.enterprise_dep_id,
+  ed.enterprise_id,
+  ed.enterprise_dep_name,
+  ed.enterprise_dep_level,
+  ed.enterprise_dep_status,
+  ed.enterprise_dep_create_time,
+  ed.enterprise_dep_edit_time,
+  ed.enterprise_dep_edit_id,
+  e.enterprise_full_name enterprise_full_name,
+  e.enterprise_simple_name enterprise_simple_name,
+  e.enterprise_code  enterprise_code
+  
+  FROM enterprise_dep ed LEFT JOIN
+  enterprise e ON ed.enterprise_id=e.enterprise_id	
+  WHERE ed.enterprise_dep_status=0 AND  ed.enterprise_id= #{enterpriseDepVo.enterpriseId}	
+  </select>
+  
+  <select id="getAllEnterpriseDepByPage" resultMap="BaseResultMap" parameterType="br.order.user.vo.empComDept.EnterpriseDepVo">
+  	SELECT DISTINCT
+	   ed.enterprise_dep_id,
+	   ed.enterprise_dep_parent_id enterpriseDepParentId,
+	  ed.enterprise_id,
+	  ed.enterprise_dep_name,
+	  ed.enterprise_dep_level,
+	  ed.enterprise_dep_status,
+	  ed.enterprise_dep_create_time,
+	  ed.enterprise_dep_edit_time,
+	  ed.enterprise_dep_edit_id,
+	  e.enterprise_full_name enterprise_full_name,
+	  e.enterprise_simple_name enterprise_simple_name,
+	  e.enterprise_code  enterprise_code
+  
+  FROM enterprise_dep ed LEFT JOIN
+  enterprise e ON ed.enterprise_id=e.enterprise_id	
+  WHERE ed.enterprise_dep_status=0 
+  <if test="enterpriseDepVo.enterpriseId!=null">
+  	AND  ed.enterprise_id= #{enterpriseDepVo.enterpriseId}	
+  </if>
+  <if test="enterpriseDepVo.enterpriseFullName!=null">
+  AND  e.enterprise_full_name LIKE '%${enterpriseDepVo.enterpriseFullName}%'
+  </if>
+  <if test="enterpriseDepVo.enterpriseCode!=null">
+  AND  e.enterprise_code= #{enterpriseDepVo.enterpriseCode}
+  </if>
+  <if test="enterpriseDepVo.enterpriseDepLevel!=null">
+  AND  ed.enterprise_dep_level= #{enterpriseDepVo.enterpriseDepLevel}
+  </if>
+ <if test="enterpriseDepVo.enterpriseDepName!=null">
+  AND ed.enterprise_dep_name LIKE '%${enterpriseDepVo.enterpriseDepName}%'
+  </if>
+  </select>
+ </mapper>

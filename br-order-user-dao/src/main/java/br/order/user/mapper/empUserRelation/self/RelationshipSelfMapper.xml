@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empUserRelation.self.RelationshipSelfMapper">
+	 <resultMap id="BaseResultMap" type="br.order.user.vo.empUserRelation.RelationShipVo" >
+		<id column="relationship_id" property="relationshipId" jdbcType="VARCHAR" />
+		 <result column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR"/> 
+		 <result column="customer_info_relation_id" property="customerInfoRelationId" jdbcType="VARCHAR"/> 
+		 <result column="dict_relation_id" property="dictRelationId" jdbcType="VARCHAR"/> 		 
+		 <result column="status" property="status" jdbcType="INTEGER" /> 		 
+		 <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+		 <result column="edittime" property="edittime" jdbcType="TIMESTAMP" />
+		 
+		 <result column="dict_relation_name" property="relation" jdbcType="VARCHAR" />
+		 <result column="customer_info_name" property="customerInfoName" jdbcType="VARCHAR" /> 
+		 <result column="customer_info_sex" property="sex" jdbcType="BIGINT" />
+		 <result column="customer_info_email" property="customerInfoEmail" jdbcType="VARCHAR"/>
+		 <result column="customer_info_phone" property="customerInfoPhone" jdbcType="VARCHAR" /> 
+		 <result column="customer_info_identity_number" property="customerInfoIdentityNumber" jdbcType="VARCHAR" /> 
+		  
+		</resultMap> 
+	<select id="getRelationShipsByParam" parameterType="br.order.user.vo.empUserRelation.RelationShipVo" resultMap="BaseResultMap">
+			SELECT DISTINCT
+				rs.relationship_id,
+				ci.customer_info_id,
+				ci.customer_info_name,
+				ci.customer_info_sex,
+				rs.status,
+				rs.createtime,
+				rs.edittime,
+				rs.customer_info_relation_id,
+				drs.dict_relation_id,
+				drs.dict_relation_name,
+				ci.customer_info_identity_number,
+				ci.customer_info_phone,
+				ci.customer_info_email,
+				(select count(*) from customer_regist cr where cr.customer_info_id=ci.customer_info_id and cr.customer_regist_status=0) register
+			FROM
+				relationship rs
+			LEFT JOIN customer_info ci ON rs.customer_info_relation_id = ci.customer_info_id
+			LEFT JOIN dict_relationship drs ON drs.dict_relation_id = rs.dict_relation_id
+			WHERE
+				rs.customer_info_id = #{relationship.customerInfoId}
+		<if test="relationship.relationshipId!=null">
+			and rs.relationship_id = #{relationship.relationshipId}
+		</if>
+		<if test="relationship.status!=null">
+			and rs.STATUS = #{relationship.status}
+		</if>
+		<if test="relationship.createtime!=null">
+			and rs.createtime = #{relationship.createtime}
+		</if>
+		<if test="relationship.customerInfoName!=null">
+			and ci.customer_info_name = #{relationship.customerInfoName}
+		</if>
+		<if test="relationship.customerInfoEmail!=null">
+			and ci.customer_info_email = #{relationship.customerInfoEmail}
+		</if>
+		<if test="relationship.customerInfoPhone!=null">
+			and ci.customer_info_phone = #{relationship.customerInfoPhone}
+		</if>	 
+		<if test="relationship.relationName!=null">
+			and dr.dict_relation_name = #{relationship.relationName}
+		</if>
+		<if test="relationship.customerInfoIdentityNumber!=null">
+			and ci.customer_info_identity_number = #{relationship.customerInfoIdentityNumber}
+		</if>	
+		<if test="relationship.sex!=null">
+			and ci.customer_info_sex = #{relationship.sex}
+		</if>
+	</select>
+	
+	<!-- <select id="getRelationshipById" resultMap="BaseResultMap" parameterType="br.order.user.vo.empUserRelation.RelationShipVo">
+	SELECT DISTINCT
+		rs.relationship_id,
+		rs.customer_info_id,
+		rs.customer_info_relation_id,
+		rs.dict_relation_id,
+	    rs.status,
+		rs.createtime,
+		rs.edittime
+	FROM
+		relationship AS rs
+	WHERE
+		rs.customer_info_id = #{relationship.customerInfoId}					
+	</select> -->
+	<select id="getRelationship" resultMap="BaseResultMap" parameterType="br.order.user.vo.empUserRelation.RelationShipVo">
+	SELECT DISTINCT
+		rs.relationship_id,
+		rs.customer_info_id,
+		rs.customer_info_relation_id,
+	    rs.dict_relation_id,
+		rs.status,
+		rs.createtime,
+		rs.edittime,
+		ci.customer_info_id,
+		ci.customer_info_phone,
+		ci.customer_info_email,
+		ci.customer_info_head_img,
+		ci.customer_info_sex,
+		ci.customer_info_name,
+		ci.customer_info_identity_number,
+		ci.customer_info_address,
+		ci.customer_info_status,
+		ci.customer_info_edit_id,
+		ci.customer_info_create_time,
+		ci.customer_info_edit_time,
+		dict.dict_relation_name,
+		dict.dict_relation_id
+	FROM
+		br_user.relationship AS rs
+	LEFT JOIN br_user.customer_info AS ci ON rs.customer_info_relation_id = ci.customer_info_id
+	LEFT JOIN br_user.dict_relationship AS dict ON rs.dict_relation_id = dict.dict_relation_id
+	WHERE
+		rs.relationship_id = #{relationship.relationshipId}				
+	</select>
+	
+</mapper>

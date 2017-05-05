@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empUser.CustomerInfoMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.pojo.empUser.CustomerInfo" >
+    <id column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR" />
+    <result column="customer_info_phone" property="customerInfoPhone" jdbcType="VARCHAR" />
+    <result column="customer_info_email" property="customerInfoEmail" jdbcType="VARCHAR" />
+    <result column="customer_info_head_img" property="customerInfoHeadImg" jdbcType="VARCHAR" />
+    <result column="customer_info_sex" property="customerInfoSex" jdbcType="INTEGER" />
+    <result column="customer_info_name" property="customerInfoName" jdbcType="VARCHAR" />
+    <result column="customer_info_identity_number" property="customerInfoIdentityNumber" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="area_id" property="areaId" jdbcType="BIGINT" />
+    <result column="customer_info_address" property="customerInfoAddress" jdbcType="VARCHAR" />
+    <result column="customer_info_status" property="customerInfoStatus" jdbcType="INTEGER" />
+    <result column="customer_info_edit_id" property="customerInfoEditId" jdbcType="VARCHAR" />
+    <result column="customer_info_create_time" property="customerInfoCreateTime" jdbcType="TIMESTAMP" />
+    <result column="customer_info_edit_time" property="customerInfoEditTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    customer_info_id, customer_info_phone, customer_info_email, customer_info_head_img, 
+    customer_info_sex, customer_info_name, customer_info_identity_number, province_id, 
+    city_id, area_id, customer_info_address, customer_info_status, customer_info_edit_id, 
+    customer_info_create_time, customer_info_edit_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="br.order.user.pojo.empUser.CustomerInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_info
+    where customer_info_id = #{customerInfoId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from customer_info
+    where customer_info_id = #{customerInfoId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="br.order.user.pojo.empUser.CustomerInfoExample" >
+    delete from customer_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="br.order.user.pojo.empUser.CustomerInfo" >
+    insert into customer_info (customer_info_id, customer_info_phone, 
+      customer_info_email, customer_info_head_img, 
+      customer_info_sex, customer_info_name, customer_info_identity_number, 
+      province_id, city_id, area_id, 
+      customer_info_address, customer_info_status, 
+      customer_info_edit_id, customer_info_create_time, 
+      customer_info_edit_time)
+    values (#{customerInfoId,jdbcType=VARCHAR}, #{customerInfoPhone,jdbcType=VARCHAR}, 
+      #{customerInfoEmail,jdbcType=VARCHAR}, #{customerInfoHeadImg,jdbcType=VARCHAR}, 
+      #{customerInfoSex,jdbcType=INTEGER}, #{customerInfoName,jdbcType=VARCHAR}, #{customerInfoIdentityNumber,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, 
+      #{customerInfoAddress,jdbcType=VARCHAR}, #{customerInfoStatus,jdbcType=INTEGER}, 
+      #{customerInfoEditId,jdbcType=VARCHAR}, #{customerInfoCreateTime,jdbcType=TIMESTAMP}, 
+      #{customerInfoEditTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="br.order.user.pojo.empUser.CustomerInfo" >
+    insert into customer_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerInfoId != null" >
+        customer_info_id,
+      </if>
+      <if test="customerInfoPhone != null" >
+        customer_info_phone,
+      </if>
+      <if test="customerInfoEmail != null" >
+        customer_info_email,
+      </if>
+      <if test="customerInfoHeadImg != null" >
+        customer_info_head_img,
+      </if>
+      <if test="customerInfoSex != null" >
+        customer_info_sex,
+      </if>
+      <if test="customerInfoName != null" >
+        customer_info_name,
+      </if>
+      <if test="customerInfoIdentityNumber != null" >
+        customer_info_identity_number,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="customerInfoAddress != null" >
+        customer_info_address,
+      </if>
+      <if test="customerInfoStatus != null" >
+        customer_info_status,
+      </if>
+      <if test="customerInfoEditId != null" >
+        customer_info_edit_id,
+      </if>
+      <if test="customerInfoCreateTime != null" >
+        customer_info_create_time,
+      </if>
+      <if test="customerInfoEditTime != null" >
+        customer_info_edit_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerInfoId != null" >
+        #{customerInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoPhone != null" >
+        #{customerInfoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoEmail != null" >
+        #{customerInfoEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoHeadImg != null" >
+        #{customerInfoHeadImg,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoSex != null" >
+        #{customerInfoSex,jdbcType=INTEGER},
+      </if>
+      <if test="customerInfoName != null" >
+        #{customerInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoIdentityNumber != null" >
+        #{customerInfoIdentityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="customerInfoAddress != null" >
+        #{customerInfoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoStatus != null" >
+        #{customerInfoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="customerInfoEditId != null" >
+        #{customerInfoEditId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoCreateTime != null" >
+        #{customerInfoCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerInfoEditTime != null" >
+        #{customerInfoEditTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="br.order.user.pojo.empUser.CustomerInfoExample" resultType="java.lang.Integer" >
+    select count(*) from customer_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_info
+    <set >
+      <if test="record.customerInfoId != null" >
+        customer_info_id = #{record.customerInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoPhone != null" >
+        customer_info_phone = #{record.customerInfoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoEmail != null" >
+        customer_info_email = #{record.customerInfoEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoHeadImg != null" >
+        customer_info_head_img = #{record.customerInfoHeadImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoSex != null" >
+        customer_info_sex = #{record.customerInfoSex,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerInfoName != null" >
+        customer_info_name = #{record.customerInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoIdentityNumber != null" >
+        customer_info_identity_number = #{record.customerInfoIdentityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null" >
+        province_id = #{record.provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.customerInfoAddress != null" >
+        customer_info_address = #{record.customerInfoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoStatus != null" >
+        customer_info_status = #{record.customerInfoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.customerInfoEditId != null" >
+        customer_info_edit_id = #{record.customerInfoEditId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerInfoCreateTime != null" >
+        customer_info_create_time = #{record.customerInfoCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.customerInfoEditTime != null" >
+        customer_info_edit_time = #{record.customerInfoEditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_info
+    set customer_info_id = #{record.customerInfoId,jdbcType=VARCHAR},
+      customer_info_phone = #{record.customerInfoPhone,jdbcType=VARCHAR},
+      customer_info_email = #{record.customerInfoEmail,jdbcType=VARCHAR},
+      customer_info_head_img = #{record.customerInfoHeadImg,jdbcType=VARCHAR},
+      customer_info_sex = #{record.customerInfoSex,jdbcType=INTEGER},
+      customer_info_name = #{record.customerInfoName,jdbcType=VARCHAR},
+      customer_info_identity_number = #{record.customerInfoIdentityNumber,jdbcType=VARCHAR},
+      province_id = #{record.provinceId,jdbcType=BIGINT},
+      city_id = #{record.cityId,jdbcType=BIGINT},
+      area_id = #{record.areaId,jdbcType=BIGINT},
+      customer_info_address = #{record.customerInfoAddress,jdbcType=VARCHAR},
+      customer_info_status = #{record.customerInfoStatus,jdbcType=INTEGER},
+      customer_info_edit_id = #{record.customerInfoEditId,jdbcType=VARCHAR},
+      customer_info_create_time = #{record.customerInfoCreateTime,jdbcType=TIMESTAMP},
+      customer_info_edit_time = #{record.customerInfoEditTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="br.order.user.pojo.empUser.CustomerInfo" >
+    update customer_info
+    <set >
+      <if test="customerInfoPhone != null" >
+        customer_info_phone = #{customerInfoPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoEmail != null" >
+        customer_info_email = #{customerInfoEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoHeadImg != null" >
+        customer_info_head_img = #{customerInfoHeadImg,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoSex != null" >
+        customer_info_sex = #{customerInfoSex,jdbcType=INTEGER},
+      </if>
+      <if test="customerInfoName != null" >
+        customer_info_name = #{customerInfoName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoIdentityNumber != null" >
+        customer_info_identity_number = #{customerInfoIdentityNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="customerInfoAddress != null" >
+        customer_info_address = #{customerInfoAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoStatus != null" >
+        customer_info_status = #{customerInfoStatus,jdbcType=INTEGER},
+      </if>
+      <if test="customerInfoEditId != null" >
+        customer_info_edit_id = #{customerInfoEditId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerInfoCreateTime != null" >
+        customer_info_create_time = #{customerInfoCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerInfoEditTime != null" >
+        customer_info_edit_time = #{customerInfoEditTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where customer_info_id = #{customerInfoId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="br.order.user.pojo.empUser.CustomerInfo" >
+    update customer_info
+    set customer_info_phone = #{customerInfoPhone,jdbcType=VARCHAR},
+      customer_info_email = #{customerInfoEmail,jdbcType=VARCHAR},
+      customer_info_head_img = #{customerInfoHeadImg,jdbcType=VARCHAR},
+      customer_info_sex = #{customerInfoSex,jdbcType=INTEGER},
+      customer_info_name = #{customerInfoName,jdbcType=VARCHAR},
+      customer_info_identity_number = #{customerInfoIdentityNumber,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=BIGINT},
+      city_id = #{cityId,jdbcType=BIGINT},
+      area_id = #{areaId,jdbcType=BIGINT},
+      customer_info_address = #{customerInfoAddress,jdbcType=VARCHAR},
+      customer_info_status = #{customerInfoStatus,jdbcType=INTEGER},
+      customer_info_edit_id = #{customerInfoEditId,jdbcType=VARCHAR},
+      customer_info_create_time = #{customerInfoCreateTime,jdbcType=TIMESTAMP},
+      customer_info_edit_time = #{customerInfoEditTime,jdbcType=TIMESTAMP}
+    where customer_info_id = #{customerInfoId,jdbcType=VARCHAR}
+  </update>
+</mapper>

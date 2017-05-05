@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empCom.self.EnterpriseSelfMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.vo.empCom.EnterpriseVo" >
+    <id column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+    <result column="enterprise_full_name" property="enterpriseFullName" jdbcType="VARCHAR" />
+    <result column="enterprise_simple_name" property="enterpriseSimpleName" jdbcType="VARCHAR" />
+    <result column="enterprise_code" property="enterpriseCode" jdbcType="VARCHAR" />
+    <result column="enterprice_license_img_id" property="enterpriceLicenseImgId" jdbcType="VARCHAR" />
+    <result column="enterprice_license_no" property="enterpriceLicenseNo" jdbcType="VARCHAR" />
+    <result column="enterprice_license_open_img_id" property="enterpriceLicenseOpenImgId" jdbcType="VARCHAR" />
+    <result column="enterprice_conn_emp_id" property="enterpriceConnEmpId" jdbcType="BIGINT" />
+    <result column="enterprice_license_person" property="enterpriceLicensePerson" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="INTEGER" />
+    <result column="enterprise_address" property="enterpriseAddress" jdbcType="VARCHAR" />
+    <result column="enterprise_status" property="enterpriseStatus" jdbcType="INTEGER" />
+    <result column="enterprise_create_time" property="enterpriseCreateTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_edit_time" property="enterpriseEditTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_edit_id" property="enterpriseEditId" jdbcType="BIGINT" />
+    
+    <result column="customer_info_name" property="enterpriseConnEmpName" jdbcType="VARCHAR" />
+    <result column="customer_info_phone" property="enterpriseConnEmpPhone" jdbcType="VARCHAR" />
+    <result column="customer_info_email" property="enterpriseConnEmpEmail" jdbcType="VARCHAR" />
+    <result column="customer_info_identity_number" property="enterpriseConnEmpIDCard" jdbcType="VARCHAR" />
+    <!-- <result column="dictImg_location" property="enterpriseLicenseImgUrl" jdbcType="VARCHAR" />
+    <result column="dictOpenImg_location" property="enterpriseLicenseOpenImgUrl" jdbcType="VARCHAR" />
+  
+    -->
+    
+  </resultMap>
+  <select id="getEnterpriseByPage" resultMap="BaseResultMap" parameterType="br.order.user.vo.empCom.EnterpriseVo" >
+  SELECT DISTINCT
+		e.enterprise_id,
+		e.enterprise_full_name,
+		e.enterprise_simple_name,
+		e.enterprise_code,
+		ci.customer_info_name,
+		ci.customer_info_phone,
+		ci.customer_info_email,
+		ci.customer_info_identity_number,
+		e.enterprice_license_person,
+		e.enterprise_address,
+		e.enterprise_create_time,
+		e.enterprise_status,
+		e.enterprice_license_img_id,
+		e.enterprice_license_no,
+		e.enterprice_license_open_img_id,
+		e.enterprice_conn_emp_id,
+		e.area_id,
+		e.enterprise_edit_time,
+		e.enterprise_edit_id
+	FROM
+	    enterprise AS e
+	LEFT JOIN  
+	    customer_info AS ci 
+	ON 
+	    e.enterprice_conn_emp_id = ci.customer_info_id
+	<where>
+	<if test="enterpriseFullName!=null">
+		 e.enterprise_full_name LIKE '%${enterpriseFullName}%'
+	</if>
+	<if test="enterpriseCode!=null">
+		AND e.enterprise_code = #{enterpriseCode}
+	</if>
+	<if test="enterpriceLicenseNo!=null">
+		AND e.enterprice_license_no = #{enterpriceLicenseNo}
+	</if>
+	<if test="enterpriceLicensePerson!=null">
+		AND e.enterprice_license_person LIKE '%${enterpriceLicensePerson}%'
+	</if>
+	<if test="enterpriseConnEmpPhone!=null">
+		AND ci.customer_info_phone = #{enterpriseConnEmpPhone}
+	</if>
+	</where>
+  </select>
+  
+  <select id="getEnterpriseVoById" resultMap="BaseResultMap" parameterType="br.order.user.vo.empCom.EnterpriseVo">
+  	SELECT DISTINCT
+	e.enterprise_id,
+		e.enterprise_full_name,
+		e.enterprise_simple_name,
+		e.enterprise_code,
+		ci.customer_info_name,
+		ci.customer_info_phone,
+		ci.customer_info_email,
+		ci.customer_info_identity_number,
+		e.enterprice_license_person,
+		e.enterprise_address,
+		e.enterprise_create_time,
+		e.enterprise_status,
+		e.enterprice_license_img_id,
+		e.enterprice_license_no,
+		e.enterprice_license_open_img_id,
+		e.enterprice_conn_emp_id,
+		e.area_id,
+		e.enterprise_edit_time,
+		e.enterprise_edit_id
+	FROM
+	    enterprise AS e
+	LEFT JOIN  
+	    customer_info AS ci 
+	ON 
+	    e.enterprice_conn_emp_id = ci.customer_info_id
+	
+	WHERE
+		e.enterprise_id=#{enterpriseId}
+		
+  </select>
+  </mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="br.order.user.mapper.empUser.self.CustomerInfoSelfMapper">
+	<resultMap id="BaseResultMap" type="br.order.user.vo.empUser.CustomerInfoVo">
+		<id column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR" />
+		<result column="customer_regist_id" property="customerRegistId" jdbcType="VARCHAR" />
+		<result column="customer_info_phone" property="customerInfoPhone" jdbcType="VARCHAR" />
+		<result column="customer_info_email" property="customerInfoEmail" jdbcType="VARCHAR" />
+		<result column="customer_info_head_img" property="customerInfoHeadImg" jdbcType="VARCHAR" />
+		<result column="customer_info_sex" property="customerInfoSex" jdbcType="INTEGER" />
+		<result column="customer_info_name" property="customerInfoName" jdbcType="VARCHAR" />
+		<result column="customer_info_identity_number" property="customerInfoIdentityNumber" jdbcType="VARCHAR" />
+		<result column="area_id" property="areaId" jdbcType="BIGINT" />
+		<result column="customer_info_address" property="customerInfoAddress" jdbcType="VARCHAR" />
+		<result column="customer_info_status" property="customerInfoStatus" jdbcType="INTEGER" />
+		<result column="customer_info_edit_id" property="customerInfoEditId" jdbcType="BIGINT" />
+		<result column="customer_info_create_time" property="customerInfoCreateTime" jdbcType="TIMESTAMP" />
+		<result column="customer_info_edit_time" property="customerInfoEditTime" jdbcType="TIMESTAMP" />
+		<result column="enterprise_full_name" property="enterpriseFullName" jdbcType="VARCHAR" />
+		<result column="enterprise_code" property="enterpriseCode" jdbcType="VARCHAR" />
+		<result column="enterprice_license_no" property="enterpriceLicenseNo" jdbcType="VARCHAR" />
+		<result column="customer_info_name_enterprise" property="customerInfoNameEnterprise" jdbcType="VARCHAR" />
+		<result column="customer_info_phone_enterprise" property="customerInfoPhoneEnterprise" jdbcType="VARCHAR" />
+		<result column="customer_regist_create_time" property="customerRegistCreateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 获取注册用户信息列表 -->
+	<select id="getAllCustomerInfo" resultMap="BaseResultMap" parameterType="br.order.user.vo.empUser.CustomerRegistQu">
+		SELECT DISTINCT
+		      cr.customer_info_id as customer_info_id,
+			  cr.customer_regist_id as customer_regist_id,
+			  ci.customer_info_phone as customer_info_phone,
+			  ci.customer_info_email as customer_info_email,
+			  ci.customer_info_head_img as customer_info_head_img,
+			  ci.customer_info_sex as customer_info_sex,
+			  ci.customer_info_name,
+			  ci.customer_info_identity_number,
+			  ci.area_id,
+			  ci.customer_info_address,
+			  ci.customer_info_status,
+			  ci.customer_info_edit_id,
+			  ci.customer_info_create_time,
+			  ci.customer_info_edit_time,
+			  e.enterprise_full_name,
+			  e.enterprise_code,
+			  e.enterprice_license_no,
+			  cci.customer_info_name as customer_info_name_enterprise,
+			  cci.customer_info_phone as customer_info_phone_enterprise,
+			  cr.customer_regist_create_time as customer_regist_create_time
+		from customer_regist cr
+		  LEFT JOIN customer_info ci
+		    on cr.customer_info_id=ci.customer_info_id
+		  left join enterprise e
+		    on cr.customer_company_id = e.enterprise_id
+		  left join customer_info cci
+		    on e.enterprice_conn_emp_id = cci.customer_info_id 
+		    where cr.customer_regist_status=0
+		   	<if test="customerRegistQu.enterpriseFullName!=null">
+		   		AND e.enterprise_full_name like concat(concat('%', #{customerRegistQu.enterpriseFullName}), '%')
+		   	</if>
+		   	<if test="customerRegistQu.enterpriseCode!=null">
+		   		AND e.enterprise_code like concat(concat('%', #{customerRegistQu.enterpriseCode}), '%')
+		   	</if>
+		   	<if test="customerRegistQu.enterpriceLicenseNo!=null">
+		   		AND e.enterprice_license_no like concat(concat('%', #{customerRegistQu.enterpriceLicenseNo}), '%')
+		   	</if>
+		   	<if test="customerRegistQu.customerInfoName!=null">
+		   		AND cci.customer_info_name like concat(concat('%', #{customerRegistQu.customerInfoName}), '%')
+		   	</if>
+		   	<if test="customerRegistQu.customerInfoPhone!=null">
+		   		AND cci.customer_info_phone like concat(concat('%', #{customerRegistQu.customerInfoPhone}), '%')
+		   	</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="br.order.user.vo.empUser.CustomerInfoVo">
+
+			SELECT DISTINCT
+				cr.customer_regist_id,
+				cr.customer_info_id,
+				ci.customer_info_id,
+				ci.customer_info_phone,
+				ci.customer_info_email,
+				ci.customer_info_head_img,
+				ci.customer_info_sex,
+				ci.customer_info_name,
+				ci.customer_info_identity_number,
+				ci.customer_info_address,
+				ci.customer_info_status,
+				ci.customer_info_edit_id,
+				ci.customer_info_create_time,
+				ci.customer_info_edit_time
+			FROM
+				customer_regist AS cr
+			LEFT JOIN customer_info AS ci ON cr.customer_info_id = ci.customer_info_id
+			WHERE
+				cr.customer_info_id = #{customerInfoId}
+	</select>
+</mapper>

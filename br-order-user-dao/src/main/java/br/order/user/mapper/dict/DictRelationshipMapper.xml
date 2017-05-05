@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.dict.DictRelationshipMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.pojo.dict.DictRelationship" >
+    <id column="dict_relation_id" property="dictRelationId" jdbcType="BIGINT" />
+    <result column="dict_relation_name" property="dictRelationName" jdbcType="VARCHAR" />
+    <result column="dict_relation_code" property="dictRelationCode" jdbcType="VARCHAR" />
+    <result column="dict_relation_input_code" property="dictRelationInputCode" jdbcType="VARCHAR" />
+    <result column="dict_relation_note" property="dictRelationNote" jdbcType="VARCHAR" />
+    <result column="dict_relation_codex" property="dictRelationCodex" jdbcType="VARCHAR" />
+    <result column="dict_relation_create_time" property="dictRelationCreateTime" jdbcType="TIMESTAMP" />
+    <result column="dict_relation_edit_time" property="dictRelationEditTime" jdbcType="TIMESTAMP" />
+    <result column="dict_relation_status" property="dictRelationStatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    dict_relation_id, dict_relation_name, dict_relation_code, dict_relation_input_code, 
+    dict_relation_note, dict_relation_codex, dict_relation_create_time, dict_relation_edit_time, 
+    dict_relation_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="br.order.user.pojo.dict.DictRelationshipExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dict_relationship
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from dict_relationship
+    where dict_relation_id = #{dictRelationId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from dict_relationship
+    where dict_relation_id = #{dictRelationId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="br.order.user.pojo.dict.DictRelationshipExample" >
+    delete from dict_relationship
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="br.order.user.pojo.dict.DictRelationship" >
+    insert into dict_relationship (dict_relation_id, dict_relation_name, 
+      dict_relation_code, dict_relation_input_code, 
+      dict_relation_note, dict_relation_codex, dict_relation_create_time, 
+      dict_relation_edit_time, dict_relation_status
+      )
+    values (#{dictRelationId,jdbcType=BIGINT}, #{dictRelationName,jdbcType=VARCHAR}, 
+      #{dictRelationCode,jdbcType=VARCHAR}, #{dictRelationInputCode,jdbcType=VARCHAR}, 
+      #{dictRelationNote,jdbcType=VARCHAR}, #{dictRelationCodex,jdbcType=VARCHAR}, #{dictRelationCreateTime,jdbcType=TIMESTAMP}, 
+      #{dictRelationEditTime,jdbcType=TIMESTAMP}, #{dictRelationStatus,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="br.order.user.pojo.dict.DictRelationship" useGeneratedKeys="true" keyProperty="dictRelationId" >
+    insert into dict_relationship
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dictRelationId != null" >
+        dict_relation_id,
+      </if>
+      <if test="dictRelationName != null" >
+        dict_relation_name,
+      </if>
+      <if test="dictRelationCode != null" >
+        dict_relation_code,
+      </if>
+      <if test="dictRelationInputCode != null" >
+        dict_relation_input_code,
+      </if>
+      <if test="dictRelationNote != null" >
+        dict_relation_note,
+      </if>
+      <if test="dictRelationCodex != null" >
+        dict_relation_codex,
+      </if>
+      <if test="dictRelationCreateTime != null" >
+        dict_relation_create_time,
+      </if>
+      <if test="dictRelationEditTime != null" >
+        dict_relation_edit_time,
+      </if>
+      <if test="dictRelationStatus != null" >
+        dict_relation_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dictRelationId != null" >
+        #{dictRelationId,jdbcType=BIGINT},
+      </if>
+      <if test="dictRelationName != null" >
+        #{dictRelationName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationCode != null" >
+        #{dictRelationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationInputCode != null" >
+        #{dictRelationInputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationNote != null" >
+        #{dictRelationNote,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationCodex != null" >
+        #{dictRelationCodex,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationCreateTime != null" >
+        #{dictRelationCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dictRelationEditTime != null" >
+        #{dictRelationEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dictRelationStatus != null" >
+        #{dictRelationStatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="br.order.user.pojo.dict.DictRelationshipExample" resultType="java.lang.Integer" >
+    select count(*) from dict_relationship
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dict_relationship
+    <set >
+      <if test="record.dictRelationId != null" >
+        dict_relation_id = #{record.dictRelationId,jdbcType=BIGINT},
+      </if>
+      <if test="record.dictRelationName != null" >
+        dict_relation_name = #{record.dictRelationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictRelationCode != null" >
+        dict_relation_code = #{record.dictRelationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictRelationInputCode != null" >
+        dict_relation_input_code = #{record.dictRelationInputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictRelationNote != null" >
+        dict_relation_note = #{record.dictRelationNote,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictRelationCodex != null" >
+        dict_relation_codex = #{record.dictRelationCodex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dictRelationCreateTime != null" >
+        dict_relation_create_time = #{record.dictRelationCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dictRelationEditTime != null" >
+        dict_relation_edit_time = #{record.dictRelationEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dictRelationStatus != null" >
+        dict_relation_status = #{record.dictRelationStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dict_relationship
+    set dict_relation_id = #{record.dictRelationId,jdbcType=BIGINT},
+      dict_relation_name = #{record.dictRelationName,jdbcType=VARCHAR},
+      dict_relation_code = #{record.dictRelationCode,jdbcType=VARCHAR},
+      dict_relation_input_code = #{record.dictRelationInputCode,jdbcType=VARCHAR},
+      dict_relation_note = #{record.dictRelationNote,jdbcType=VARCHAR},
+      dict_relation_codex = #{record.dictRelationCodex,jdbcType=VARCHAR},
+      dict_relation_create_time = #{record.dictRelationCreateTime,jdbcType=TIMESTAMP},
+      dict_relation_edit_time = #{record.dictRelationEditTime,jdbcType=TIMESTAMP},
+      dict_relation_status = #{record.dictRelationStatus,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="br.order.user.pojo.dict.DictRelationship" >
+    update dict_relationship
+    <set >
+      <if test="dictRelationName != null" >
+        dict_relation_name = #{dictRelationName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationCode != null" >
+        dict_relation_code = #{dictRelationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationInputCode != null" >
+        dict_relation_input_code = #{dictRelationInputCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationNote != null" >
+        dict_relation_note = #{dictRelationNote,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationCodex != null" >
+        dict_relation_codex = #{dictRelationCodex,jdbcType=VARCHAR},
+      </if>
+      <if test="dictRelationCreateTime != null" >
+        dict_relation_create_time = #{dictRelationCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dictRelationEditTime != null" >
+        dict_relation_edit_time = #{dictRelationEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dictRelationStatus != null" >
+        dict_relation_status = #{dictRelationStatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where dict_relation_id = #{dictRelationId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="br.order.user.pojo.dict.DictRelationship" >
+    update dict_relationship
+    set dict_relation_name = #{dictRelationName,jdbcType=VARCHAR},
+      dict_relation_code = #{dictRelationCode,jdbcType=VARCHAR},
+      dict_relation_input_code = #{dictRelationInputCode,jdbcType=VARCHAR},
+      dict_relation_note = #{dictRelationNote,jdbcType=VARCHAR},
+      dict_relation_codex = #{dictRelationCodex,jdbcType=VARCHAR},
+      dict_relation_create_time = #{dictRelationCreateTime,jdbcType=TIMESTAMP},
+      dict_relation_edit_time = #{dictRelationEditTime,jdbcType=TIMESTAMP},
+      dict_relation_status = #{dictRelationStatus,jdbcType=INTEGER}
+    where dict_relation_id = #{dictRelationId,jdbcType=BIGINT}
+  </update>
+</mapper>

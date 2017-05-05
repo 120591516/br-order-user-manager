@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empComUser.self.EnterpriseEmpSelfMapper">
+	<resultMap id="BaseResultMap"
+		type="br.order.user.vo.empComUser.EnterpriseEmpVo">
+		<id column="enterprise_emp_id" property="enterpriseEmpId" jdbcType="VARCHAR" />
+		<result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+		<result column="enterprise_dep_id" property="enterpriseDepId" jdbcType="VARCHAR" />
+		<result column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="edittime" property="edittime" jdbcType="TIMESTAMP" />
+		<result column="enterprise_full_name" property="enterpriseFullName" jdbcType="VARCHAR" />
+		<result column="enterprise_code" property="enterpriseCode" jdbcType="VARCHAR" />
+		<result column="enterprise_dep_name" property="enterpriseDepName" jdbcType="VARCHAR" />
+		
+		<result jdbcType="VARCHAR" property="enterpriseSimpleName" column="enterprise_simple_name"/>
+		<result jdbcType="VARCHAR" property="customerInfoName" column="customer_info_name"/>		
+		<result jdbcType="VARCHAR" property="customerInfoPhone" column="customer_info_phone"/>		
+		<result jdbcType="VARCHAR" property="customerInfoEmail" column="customer_info_email"/>		
+		<result jdbcType="BIGINT" property="customerInfoSex" column="customer_info_sex"/>		
+		<result jdbcType="VARCHAR" property="customerInfoIdentityNumber" column="customer_info_identity_number"/>
+	</resultMap>
+
+	<select id="getEnterpriseEmp" resultMap="BaseResultMap"
+		parameterType="br.order.user.vo.empComUser.EnterpriseEmpVo">
+		SELECT DISTINCT
+		ci.customer_info_phone,
+		ci.customer_info_email,
+		ci.customer_info_sex,
+		ci.customer_info_name,
+		ci.customer_info_identity_number,
+		e.enterprise_full_name
+		enterprise_full_name,
+		e.enterprise_code enterprise_code,
+		ed.enterprise_dep_name enterprise_dep_name
+		FROM
+		customer_info AS ci
+		LEFT JOIN
+		enterprise_emp AS ee ON ci.customer_info_id =
+		ee.customer_info_id
+		LEFT JOIN
+		enterprise AS e ON ee.enterprise_id =
+		e.enterprise_id
+		LEFT JOIN
+		enterprise_dep AS ed ON ed.enterprise_dep_id
+		= ee.enterprise_dep_id
+		WHERE
+		ee.enterprise_emp_id =#{enterpriseEmpId}
+
+	</select>
+
+	<select id="getEnterpriseEmpByInfoId" resultMap="BaseResultMap"
+		parameterType="br.order.user.vo.empComUser.EnterpriseEmpVo">
+		SELECT DISTINCT
+			ci.customer_info_name,
+			ci.customer_info_sex,
+			ci.customer_info_phone,
+			ci.customer_info_email,						
+			ci.customer_info_identity_number,
+			ee.enterprise_id,
+			ee.enterprise_dep_id,
+			ee.customer_info_id,
+			ee.enterprise_emp_id,
+			ee.status,
+			ee.createtime,
+			ee.edittime,			
+			ci.customer_info_create_time,
+			ci.customer_info_edit_time
+		FROM
+			enterprise_emp AS ee
+		LEFT JOIN customer_info AS ci ON ee.customer_info_id = ci.customer_info_id
+		WHERE
+			ee.customer_info_id = #{customerInfoId}
+		
+	</select>
+	<select id="getEmterPriseEmpById" resultMap="BaseResultMap"
+		parameterType="br.order.user.vo.empComUser.EnterpriseEmpVo">
+		SELECT
+			enterprise_emp.enterprise_id,
+			enterprise_emp.enterprise_dep_id,
+			enterprise_emp.customer_info_id,
+			enterprise_emp.`status`,
+			enterprise_emp.createtime,
+			enterprise_emp.edittime
+		FROM
+			enterprise_emp
+		WHERE
+			enterprise_emp.enterprise_emp_id = #{enterpriseEmpId}
+		
+	</select>
+	<resultMap id="BaseResultMap1"
+		type="br.order.user.vo.empComUser.EnterpriseEmpVo">
+		<id column="enterprise_emp_id" property="enterpriseEmpId" jdbcType="VARCHAR" />
+		<result column="customer_info_id" property="customerInfoId"
+			jdbcType="VARCHAR" />
+		<result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+    	<result column="enterprise_dep_id" property="enterpriseDepId" jdbcType="VARCHAR" />
+		<result column="customer_info_name" property="customerInfoName"
+			jdbcType="VARCHAR" />
+		<result column="customer_info_email" property="customerInfoEmail"
+			jdbcType="VARCHAR" />
+		<result column="customer_info_sex" property="customerInfoSex"
+			jdbcType="INTEGER" />
+		<result column="customer_info_identity_number" property="customerInfoIdentityNumber"
+			jdbcType="VARCHAR" />
+		<result column="customer_info_phone" property="customerInfoPhone"
+			jdbcType="VARCHAR" />
+		<result column="enterprise_simple_name" property="enterpriseSimpleName"
+			jdbcType="VARCHAR" /> 
+		<result column="enterprise_full_name" property="enterpriseFullName"
+			jdbcType="VARCHAR" />
+		<result column="enterprise_code" property="enterpriseCode"
+			jdbcType="VARCHAR" />
+		<result column="enterprise_dep_name" property="enterpriseDepName"
+			jdbcType="VARCHAR" />
+		<result column="enterprise_dep_parent_id" property="enterpriseDepParentId"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="getAllEnterpriseEmpByPage" resultMap="BaseResultMap1" parameterType="java.lang.String">
+			SELECT DISTINCT
+				a.enterprise_emp_id enterpriseEmpId, 
+				a.enterprise_id enterpriseId,
+				a.enterprise_dep_id enterpriseDepId,
+				a.customer_info_id customerInfoId,
+				c.customer_info_name customer_info_name,
+				c.customer_info_email customer_info_email,
+				c.customer_info_sex customer_info_sex,
+				c.customer_info_identity_number customer_info_identity_number,
+				c.customer_info_phone customer_info_phone,
+				e.enterprise_full_name enterprise_full_name,
+				e.enterprise_simple_name enterprise_simple_name,
+				e.enterprise_code enterprise_code,
+				d.enterprise_dep_name enterprise_dep_name,
+				d.enterprise_dep_parent_id enterpriseDepParentId
+			FROM
+				enterprise_emp a
+			LEFT JOIN 
+			enterprise e 
+			ON 
+			a.enterprise_id = e.enterprise_id
+			LEFT JOIN 
+			enterprise_dep d 
+			ON 
+			a.enterprise_dep_id = d.enterprise_dep_id
+			LEFT JOIN 
+			customer_info c 
+			ON 
+			a.customer_info_id = c.customer_info_id
+			WHERE
+				a. STATUS = 0
+			AND d.enterprise_dep_id = #{enterpriseDeptId}
+	</select>
+	<select id="getEnterpriseEmpByAllPage" resultMap="BaseResultMap" parameterType="br.order.user.vo.empComUser.EnterpriseEmpVo">
+			SELECT DISTINCT
+				a.enterprise_id,
+				d.enterprise_dep_id,
+				c.customer_info_id,
+				a.enterprise_emp_id,
+				a.status,
+				c.customer_info_name,
+				c.customer_info_email,
+				c.customer_info_sex,
+				c.customer_info_identity_number,
+				c.customer_info_phone,
+				c.customer_info_create_time,
+				c.customer_info_edit_time,
+				e.enterprise_full_name,
+				e.enterprise_simple_name,
+				e.enterprise_code,
+				d.enterprise_dep_name
+			FROM
+				enterprise_emp a
+			LEFT JOIN 
+			enterprise e 
+			ON 
+			a.enterprise_id = e.enterprise_id
+			LEFT JOIN 
+			enterprise_dep d 
+			ON 
+			a.enterprise_dep_id = d.enterprise_dep_id
+			LEFT JOIN 
+			customer_info c 
+			ON 
+			a.customer_info_id = c.customer_info_id
+			<where>
+			<if test="enterpriseId!=null">
+				e.enterprise_id = #{enterpriseId}
+			</if>
+			<if test="enterpriseCode!=null">
+				AND e.enterprise_code = #{enterpriseCode}
+			</if>
+			<if test="enterpriseDepId!=null">
+				AND d.enterprise_dep_id = #{enterpriseDepId}
+			</if>
+			<if test="customerInfoName!=null">
+				AND c.customer_info_name LIKE '%${customerInfoName}%'
+			</if>
+			<if test="customerInfoSex!=null">
+				AND c.customer_info_sex = #{customerInfoSex}
+			</if>
+			<if test="customerInfoIdentityNumber">
+				AND c.customer_info_identity_number = #{customerInfoIdentityNumber}
+			</if>
+			<if test="customerInfoIdentityNumber">
+				AND c.customer_info_phone = #{customerInfoPhone}
+			</if>
+			<if test="customerInfoIdentityNumber">
+				AND c.customer_info_email = #{customerInfoEmail}
+			</if>
+			</where>
+			</select>
+<resultMap id="BaseResultMap2" type="br.order.user.pojo.empComUser.EnterpriseEmp" >
+    <id column="enterprise_emp_id" property="enterpriseEmpId" jdbcType="BIGINT" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="enterprise_dep_id" property="enterpriseDepId" jdbcType="BIGINT" />
+    <result column="customer_info_id" property="customerInfoId" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="edittime" property="edittime" jdbcType="TIMESTAMP" />
+  </resultMap>
+<select id="getEnterpriseEmpByDeptId" resultMap="BaseResultMap2" parameterType="br.order.user.pojo.empComUser.EnterpriseEmp" >
+    select
+   	*
+    from enterprise_emp
+    where enterprise_id=#{enterpriseDepId}
+  </select>
+</mapper>

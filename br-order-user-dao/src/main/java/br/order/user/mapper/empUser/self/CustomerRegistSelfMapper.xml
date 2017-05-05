@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empUser.self.CustomerRegistSelfMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.vo.empUser.CustomerRegistVo" >
+    <id column="customer_regist_id" property="customerRegistId" jdbcType="VARCHAR" />    
+    <result column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR" />
+    <result column="customer_regist_password" property="customerRegistPassword" jdbcType="VARCHAR" />
+    <result column="customer_person" property="customerPerson" jdbcType="INTEGER" />
+    <result column="customer_person_id" property="customerPersonId" jdbcType="BIGINT" />
+    <result column="customer_company" property="customerCompany" jdbcType="INTEGER" />
+    <result column="customer_company_id" property="customerCompanyId" jdbcType="BIGINT" />
+    <result column="customer_regist_status" property="customerRegistStatus" jdbcType="INTEGER" />
+    <result column="customer_regist_create_time" property="customerRegistCreateTime" jdbcType="TIMESTAMP" />
+    <result column="customer_regist_edit_time" property="customerRegistEditTime" jdbcType="TIMESTAMP" />
+    
+    <result column="customer_info_name" property="customerInfoName" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="BIGINT" />
+    <result column="enterprise_full_name" property="enterpriseFullName" jdbcType="VARCHAR" />
+    <result column="customer_info_id" property="customerInfoId" jdbcType="VARCHAR" />
+    <result column="customer_info_phone" property="customerInfoPhone" jdbcType="VARCHAR" />
+    <result column="customer_info_email" property="customerInfoEmail" jdbcType="VARCHAR" />
+    <result column="customer_info_head_img" property="customerInfoHeadImg" jdbcType="VARCHAR" />
+    <result column="customer_info_sex" property="customerInfoSex" jdbcType="INTEGER" />
+    <result column="customer_info_identity_number" property="customerInfoIdentityNumber" jdbcType="VARCHAR" />
+    <result column="customer_info_address" property="customerInfoAddress" jdbcType="VARCHAR" />
+    <result column="customer_info_status" property="customerInfoStatus" jdbcType="INTEGER" />
+    <result column="customer_info_create_time" property="customerInfoCreateTime" jdbcType="TIMESTAMP" />
+    <result column="customer_info_edit_time" property="customerInfoEditTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	SELECT DISTINCT
+	cr.customer_regist_id,
+	cr.customer_regist_password,
+	cr.customer_person,
+	cr.customer_person_id,
+	cr.customer_company,
+	cr.customer_company_id,
+	cr.customer_regist_email,
+	cr.customer_regist_sms,
+	cr.customer_regist_status,
+	cr.customer_regist_create_time,
+	cr.customer_regist_edit_time,
+	ci.customer_info_name,
+	ee.enterprise_id,
+	ee.enterprise_full_name
+FROM
+	customer_regist AS cr
+LEFT JOIN customer_info AS ci ON cr.customer_info_id = ci.customer_info_id
+LEFT JOIN enterprise AS ee ON cr.customer_company_id = ee.enterprise_id
+WHERE
+	cr.customer_regist_id = #{customerRegistId}
+  	
+  </select>
+  <select id="selectByPrimary" resultMap="BaseResultMap" parameterType="br.order.user.vo.empUser.CustomerRegistVo">
+
+			SELECT DISTINCT
+				cr.customer_regist_id,
+				cr.customer_info_id,
+				ci.customer_info_id,
+				ci.customer_info_phone,
+				ci.customer_info_email,
+				ci.customer_info_head_img,
+				ci.customer_info_sex,
+				ci.customer_info_name,
+				ci.customer_info_identity_number,
+				ci.customer_info_address,
+				ci.customer_info_status,
+				ci.customer_info_edit_id,
+				ci.customer_info_create_time,
+				ci.customer_info_edit_time
+			FROM
+				customer_regist AS cr
+			LEFT JOIN customer_info AS ci ON cr.customer_info_id = ci.customer_info_id
+			WHERE
+				cr.customer_regist_id = #{customerRegistId}
+	</select>
+	<select id="getLoginByPhoneOrPassword"  resultType="br.order.user.vo.empUser.CustomerRegistVo" >
+		SELECT DISTINCT
+			cr.customer_regist_password as customerRegistPassword,
+			ci.customer_info_phone as customerInfoPhone,
+			ci.customer_info_email as customerInfoEmail,
+			cr.customer_info_id as customerInfoId,
+			cr.customer_company_id as customerCompanyId,
+			cr.customer_person as customerPerson,
+			cr.customer_person_id as customerPersonId,
+			cr.customer_company as customerCompany,
+			cr.customer_company_id as customerCompanyId			
+		FROM
+			customer_regist AS cr
+		LEFT JOIN  customer_info AS ci ON cr.customer_info_id = ci.customer_info_id
+		<where>
+			<if test="type==0">
+				and customer_info_phone = #{username}
+			</if>
+			<if test="type==1">
+				and customer_info_email = #{username}
+			</if>
+		</where>
+		
+	</select>
+  </mapper>

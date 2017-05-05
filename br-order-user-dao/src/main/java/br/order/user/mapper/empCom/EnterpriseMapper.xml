@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empCom.EnterpriseMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.pojo.empCom.Enterprise" >
+    <id column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+    <result column="enterprise_full_name" property="enterpriseFullName" jdbcType="VARCHAR" />
+    <result column="enterprise_simple_name" property="enterpriseSimpleName" jdbcType="VARCHAR" />
+    <result column="enterprise_code" property="enterpriseCode" jdbcType="VARCHAR" />
+    <result column="enterprice_license_img_id" property="enterpriceLicenseImgId" jdbcType="VARCHAR" />
+    <result column="enterprice_license_no" property="enterpriceLicenseNo" jdbcType="VARCHAR" />
+    <result column="enterprice_license_open_img_id" property="enterpriceLicenseOpenImgId" jdbcType="VARCHAR" />
+    <result column="enterprice_conn_emp_id" property="enterpriceConnEmpId" jdbcType="VARCHAR" />
+    <result column="enterprice_license_person" property="enterpriceLicensePerson" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="BIGINT" />
+    <result column="city_id" property="cityId" jdbcType="BIGINT" />
+    <result column="area_id" property="areaId" jdbcType="BIGINT" />
+    <result column="enterprise_address" property="enterpriseAddress" jdbcType="VARCHAR" />
+    <result column="enterprise_status" property="enterpriseStatus" jdbcType="INTEGER" />
+    <result column="enterprise_create_time" property="enterpriseCreateTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_edit_time" property="enterpriseEditTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_edit_id" property="enterpriseEditId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    enterprise_id, enterprise_full_name, enterprise_simple_name, enterprise_code, enterprice_license_img_id, 
+    enterprice_license_no, enterprice_license_open_img_id, enterprice_conn_emp_id, enterprice_license_person, 
+    province_id, city_id, area_id, enterprise_address, enterprise_status, enterprise_create_time, 
+    enterprise_edit_time, enterprise_edit_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="br.order.user.pojo.empCom.EnterpriseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from enterprise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise
+    where enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from enterprise
+    where enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="br.order.user.pojo.empCom.EnterpriseExample" >
+    delete from enterprise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="br.order.user.pojo.empCom.Enterprise" >
+    insert into enterprise (enterprise_id, enterprise_full_name, 
+      enterprise_simple_name, enterprise_code, enterprice_license_img_id, 
+      enterprice_license_no, enterprice_license_open_img_id, 
+      enterprice_conn_emp_id, enterprice_license_person, 
+      province_id, city_id, area_id, 
+      enterprise_address, enterprise_status, enterprise_create_time, 
+      enterprise_edit_time, enterprise_edit_id)
+    values (#{enterpriseId,jdbcType=VARCHAR}, #{enterpriseFullName,jdbcType=VARCHAR}, 
+      #{enterpriseSimpleName,jdbcType=VARCHAR}, #{enterpriseCode,jdbcType=VARCHAR}, #{enterpriceLicenseImgId,jdbcType=VARCHAR}, 
+      #{enterpriceLicenseNo,jdbcType=VARCHAR}, #{enterpriceLicenseOpenImgId,jdbcType=VARCHAR}, 
+      #{enterpriceConnEmpId,jdbcType=VARCHAR}, #{enterpriceLicensePerson,jdbcType=VARCHAR}, 
+      #{provinceId,jdbcType=BIGINT}, #{cityId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, 
+      #{enterpriseAddress,jdbcType=VARCHAR}, #{enterpriseStatus,jdbcType=INTEGER}, #{enterpriseCreateTime,jdbcType=TIMESTAMP}, 
+      #{enterpriseEditTime,jdbcType=TIMESTAMP}, #{enterpriseEditId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="br.order.user.pojo.empCom.Enterprise" >
+    insert into enterprise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="enterpriseFullName != null" >
+        enterprise_full_name,
+      </if>
+      <if test="enterpriseSimpleName != null" >
+        enterprise_simple_name,
+      </if>
+      <if test="enterpriseCode != null" >
+        enterprise_code,
+      </if>
+      <if test="enterpriceLicenseImgId != null" >
+        enterprice_license_img_id,
+      </if>
+      <if test="enterpriceLicenseNo != null" >
+        enterprice_license_no,
+      </if>
+      <if test="enterpriceLicenseOpenImgId != null" >
+        enterprice_license_open_img_id,
+      </if>
+      <if test="enterpriceConnEmpId != null" >
+        enterprice_conn_emp_id,
+      </if>
+      <if test="enterpriceLicensePerson != null" >
+        enterprice_license_person,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="enterpriseAddress != null" >
+        enterprise_address,
+      </if>
+      <if test="enterpriseStatus != null" >
+        enterprise_status,
+      </if>
+      <if test="enterpriseCreateTime != null" >
+        enterprise_create_time,
+      </if>
+      <if test="enterpriseEditTime != null" >
+        enterprise_edit_time,
+      </if>
+      <if test="enterpriseEditId != null" >
+        enterprise_edit_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseFullName != null" >
+        #{enterpriseFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseSimpleName != null" >
+        #{enterpriseSimpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCode != null" >
+        #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicenseImgId != null" >
+        #{enterpriceLicenseImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicenseNo != null" >
+        #{enterpriceLicenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicenseOpenImgId != null" >
+        #{enterpriceLicenseOpenImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceConnEmpId != null" >
+        #{enterpriceConnEmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicensePerson != null" >
+        #{enterpriceLicensePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseAddress != null" >
+        #{enterpriseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null" >
+        #{enterpriseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseCreateTime != null" >
+        #{enterpriseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseEditTime != null" >
+        #{enterpriseEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseEditId != null" >
+        #{enterpriseEditId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="br.order.user.pojo.empCom.EnterpriseExample" resultType="java.lang.Integer" >
+    select count(*) from enterprise
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update enterprise
+    <set >
+      <if test="record.enterpriseId != null" >
+        enterprise_id = #{record.enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseFullName != null" >
+        enterprise_full_name = #{record.enterpriseFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseSimpleName != null" >
+        enterprise_simple_name = #{record.enterpriseSimpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseCode != null" >
+        enterprise_code = #{record.enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriceLicenseImgId != null" >
+        enterprice_license_img_id = #{record.enterpriceLicenseImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriceLicenseNo != null" >
+        enterprice_license_no = #{record.enterpriceLicenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriceLicenseOpenImgId != null" >
+        enterprice_license_open_img_id = #{record.enterpriceLicenseOpenImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriceConnEmpId != null" >
+        enterprice_conn_emp_id = #{record.enterpriceConnEmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriceLicensePerson != null" >
+        enterprice_license_person = #{record.enterpriceLicensePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provinceId != null" >
+        province_id = #{record.provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=BIGINT},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=BIGINT},
+      </if>
+      <if test="record.enterpriseAddress != null" >
+        enterprise_address = #{record.enterpriseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseStatus != null" >
+        enterprise_status = #{record.enterpriseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.enterpriseCreateTime != null" >
+        enterprise_create_time = #{record.enterpriseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enterpriseEditTime != null" >
+        enterprise_edit_time = #{record.enterpriseEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enterpriseEditId != null" >
+        enterprise_edit_id = #{record.enterpriseEditId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update enterprise
+    set enterprise_id = #{record.enterpriseId,jdbcType=VARCHAR},
+      enterprise_full_name = #{record.enterpriseFullName,jdbcType=VARCHAR},
+      enterprise_simple_name = #{record.enterpriseSimpleName,jdbcType=VARCHAR},
+      enterprise_code = #{record.enterpriseCode,jdbcType=VARCHAR},
+      enterprice_license_img_id = #{record.enterpriceLicenseImgId,jdbcType=VARCHAR},
+      enterprice_license_no = #{record.enterpriceLicenseNo,jdbcType=VARCHAR},
+      enterprice_license_open_img_id = #{record.enterpriceLicenseOpenImgId,jdbcType=VARCHAR},
+      enterprice_conn_emp_id = #{record.enterpriceConnEmpId,jdbcType=VARCHAR},
+      enterprice_license_person = #{record.enterpriceLicensePerson,jdbcType=VARCHAR},
+      province_id = #{record.provinceId,jdbcType=BIGINT},
+      city_id = #{record.cityId,jdbcType=BIGINT},
+      area_id = #{record.areaId,jdbcType=BIGINT},
+      enterprise_address = #{record.enterpriseAddress,jdbcType=VARCHAR},
+      enterprise_status = #{record.enterpriseStatus,jdbcType=INTEGER},
+      enterprise_create_time = #{record.enterpriseCreateTime,jdbcType=TIMESTAMP},
+      enterprise_edit_time = #{record.enterpriseEditTime,jdbcType=TIMESTAMP},
+      enterprise_edit_id = #{record.enterpriseEditId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="br.order.user.pojo.empCom.Enterprise" >
+    update enterprise
+    <set >
+      <if test="enterpriseFullName != null" >
+        enterprise_full_name = #{enterpriseFullName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseSimpleName != null" >
+        enterprise_simple_name = #{enterpriseSimpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseCode != null" >
+        enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicenseImgId != null" >
+        enterprice_license_img_id = #{enterpriceLicenseImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicenseNo != null" >
+        enterprice_license_no = #{enterpriceLicenseNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicenseOpenImgId != null" >
+        enterprice_license_open_img_id = #{enterpriceLicenseOpenImgId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceConnEmpId != null" >
+        enterprice_conn_emp_id = #{enterpriceConnEmpId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriceLicensePerson != null" >
+        enterprice_license_person = #{enterpriceLicensePerson,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=BIGINT},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=BIGINT},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=BIGINT},
+      </if>
+      <if test="enterpriseAddress != null" >
+        enterprise_address = #{enterpriseAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseStatus != null" >
+        enterprise_status = #{enterpriseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseCreateTime != null" >
+        enterprise_create_time = #{enterpriseCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseEditTime != null" >
+        enterprise_edit_time = #{enterpriseEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseEditId != null" >
+        enterprise_edit_id = #{enterpriseEditId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="br.order.user.pojo.empCom.Enterprise" >
+    update enterprise
+    set enterprise_full_name = #{enterpriseFullName,jdbcType=VARCHAR},
+      enterprise_simple_name = #{enterpriseSimpleName,jdbcType=VARCHAR},
+      enterprise_code = #{enterpriseCode,jdbcType=VARCHAR},
+      enterprice_license_img_id = #{enterpriceLicenseImgId,jdbcType=VARCHAR},
+      enterprice_license_no = #{enterpriceLicenseNo,jdbcType=VARCHAR},
+      enterprice_license_open_img_id = #{enterpriceLicenseOpenImgId,jdbcType=VARCHAR},
+      enterprice_conn_emp_id = #{enterpriceConnEmpId,jdbcType=VARCHAR},
+      enterprice_license_person = #{enterpriceLicensePerson,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=BIGINT},
+      city_id = #{cityId,jdbcType=BIGINT},
+      area_id = #{areaId,jdbcType=BIGINT},
+      enterprise_address = #{enterpriseAddress,jdbcType=VARCHAR},
+      enterprise_status = #{enterpriseStatus,jdbcType=INTEGER},
+      enterprise_create_time = #{enterpriseCreateTime,jdbcType=TIMESTAMP},
+      enterprise_edit_time = #{enterpriseEditTime,jdbcType=TIMESTAMP},
+      enterprise_edit_id = #{enterpriseEditId,jdbcType=VARCHAR}
+    where enterprise_id = #{enterpriseId,jdbcType=VARCHAR}
+  </update>
+</mapper>

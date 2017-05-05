@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="br.order.user.mapper.empComDept.EnterpriseDepMapper" >
+  <resultMap id="BaseResultMap" type="br.order.user.pojo.empComDept.EnterpriseDep" >
+    <id column="enterprise_dep_id" property="enterpriseDepId" jdbcType="VARCHAR" />
+    <result column="enterprise_dep_parent_id" property="enterpriseDepParentId" jdbcType="VARCHAR" />
+    <result column="enterprise_id" property="enterpriseId" jdbcType="VARCHAR" />
+    <result column="enterprise_dep_name" property="enterpriseDepName" jdbcType="VARCHAR" />
+    <result column="enterprise_dep_level" property="enterpriseDepLevel" jdbcType="INTEGER" />
+    <result column="enterprise_dep_status" property="enterpriseDepStatus" jdbcType="INTEGER" />
+    <result column="enterprise_dep_create_time" property="enterpriseDepCreateTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_dep_edit_time" property="enterpriseDepEditTime" jdbcType="TIMESTAMP" />
+    <result column="enterprise_dep_edit_id" property="enterpriseDepEditId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    enterprise_dep_id, enterprise_dep_parent_id, enterprise_id, enterprise_dep_name, 
+    enterprise_dep_level, enterprise_dep_status, enterprise_dep_create_time, enterprise_dep_edit_time, 
+    enterprise_dep_edit_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="br.order.user.pojo.empComDept.EnterpriseDepExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from enterprise_dep
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from enterprise_dep
+    where enterprise_dep_id = #{enterpriseDepId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from enterprise_dep
+    where enterprise_dep_id = #{enterpriseDepId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="br.order.user.pojo.empComDept.EnterpriseDepExample" >
+    delete from enterprise_dep
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="br.order.user.pojo.empComDept.EnterpriseDep" >
+    insert into enterprise_dep (enterprise_dep_id, enterprise_dep_parent_id, 
+      enterprise_id, enterprise_dep_name, enterprise_dep_level, 
+      enterprise_dep_status, enterprise_dep_create_time, 
+      enterprise_dep_edit_time, enterprise_dep_edit_id
+      )
+    values (#{enterpriseDepId,jdbcType=VARCHAR}, #{enterpriseDepParentId,jdbcType=VARCHAR}, 
+      #{enterpriseId,jdbcType=VARCHAR}, #{enterpriseDepName,jdbcType=VARCHAR}, #{enterpriseDepLevel,jdbcType=INTEGER}, 
+      #{enterpriseDepStatus,jdbcType=INTEGER}, #{enterpriseDepCreateTime,jdbcType=TIMESTAMP}, 
+      #{enterpriseDepEditTime,jdbcType=TIMESTAMP}, #{enterpriseDepEditId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="br.order.user.pojo.empComDept.EnterpriseDep" >
+    insert into enterprise_dep
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="enterpriseDepId != null" >
+        enterprise_dep_id,
+      </if>
+      <if test="enterpriseDepParentId != null" >
+        enterprise_dep_parent_id,
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id,
+      </if>
+      <if test="enterpriseDepName != null" >
+        enterprise_dep_name,
+      </if>
+      <if test="enterpriseDepLevel != null" >
+        enterprise_dep_level,
+      </if>
+      <if test="enterpriseDepStatus != null" >
+        enterprise_dep_status,
+      </if>
+      <if test="enterpriseDepCreateTime != null" >
+        enterprise_dep_create_time,
+      </if>
+      <if test="enterpriseDepEditTime != null" >
+        enterprise_dep_edit_time,
+      </if>
+      <if test="enterpriseDepEditId != null" >
+        enterprise_dep_edit_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="enterpriseDepId != null" >
+        #{enterpriseDepId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDepParentId != null" >
+        #{enterpriseDepParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDepName != null" >
+        #{enterpriseDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDepLevel != null" >
+        #{enterpriseDepLevel,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseDepStatus != null" >
+        #{enterpriseDepStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseDepCreateTime != null" >
+        #{enterpriseDepCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseDepEditTime != null" >
+        #{enterpriseDepEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseDepEditId != null" >
+        #{enterpriseDepEditId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="br.order.user.pojo.empComDept.EnterpriseDepExample" resultType="java.lang.Integer" >
+    select count(*) from enterprise_dep
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update enterprise_dep
+    <set >
+      <if test="record.enterpriseDepId != null" >
+        enterprise_dep_id = #{record.enterpriseDepId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseDepParentId != null" >
+        enterprise_dep_parent_id = #{record.enterpriseDepParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseId != null" >
+        enterprise_id = #{record.enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseDepName != null" >
+        enterprise_dep_name = #{record.enterpriseDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseDepLevel != null" >
+        enterprise_dep_level = #{record.enterpriseDepLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.enterpriseDepStatus != null" >
+        enterprise_dep_status = #{record.enterpriseDepStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.enterpriseDepCreateTime != null" >
+        enterprise_dep_create_time = #{record.enterpriseDepCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enterpriseDepEditTime != null" >
+        enterprise_dep_edit_time = #{record.enterpriseDepEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enterpriseDepEditId != null" >
+        enterprise_dep_edit_id = #{record.enterpriseDepEditId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update enterprise_dep
+    set enterprise_dep_id = #{record.enterpriseDepId,jdbcType=VARCHAR},
+      enterprise_dep_parent_id = #{record.enterpriseDepParentId,jdbcType=VARCHAR},
+      enterprise_id = #{record.enterpriseId,jdbcType=VARCHAR},
+      enterprise_dep_name = #{record.enterpriseDepName,jdbcType=VARCHAR},
+      enterprise_dep_level = #{record.enterpriseDepLevel,jdbcType=INTEGER},
+      enterprise_dep_status = #{record.enterpriseDepStatus,jdbcType=INTEGER},
+      enterprise_dep_create_time = #{record.enterpriseDepCreateTime,jdbcType=TIMESTAMP},
+      enterprise_dep_edit_time = #{record.enterpriseDepEditTime,jdbcType=TIMESTAMP},
+      enterprise_dep_edit_id = #{record.enterpriseDepEditId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="br.order.user.pojo.empComDept.EnterpriseDep" >
+    update enterprise_dep
+    <set >
+      <if test="enterpriseDepParentId != null" >
+        enterprise_dep_parent_id = #{enterpriseDepParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseId != null" >
+        enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDepName != null" >
+        enterprise_dep_name = #{enterpriseDepName,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseDepLevel != null" >
+        enterprise_dep_level = #{enterpriseDepLevel,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseDepStatus != null" >
+        enterprise_dep_status = #{enterpriseDepStatus,jdbcType=INTEGER},
+      </if>
+      <if test="enterpriseDepCreateTime != null" >
+        enterprise_dep_create_time = #{enterpriseDepCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseDepEditTime != null" >
+        enterprise_dep_edit_time = #{enterpriseDepEditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enterpriseDepEditId != null" >
+        enterprise_dep_edit_id = #{enterpriseDepEditId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where enterprise_dep_id = #{enterpriseDepId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="br.order.user.pojo.empComDept.EnterpriseDep" >
+    update enterprise_dep
+    set enterprise_dep_parent_id = #{enterpriseDepParentId,jdbcType=VARCHAR},
+      enterprise_id = #{enterpriseId,jdbcType=VARCHAR},
+      enterprise_dep_name = #{enterpriseDepName,jdbcType=VARCHAR},
+      enterprise_dep_level = #{enterpriseDepLevel,jdbcType=INTEGER},
+      enterprise_dep_status = #{enterpriseDepStatus,jdbcType=INTEGER},
+      enterprise_dep_create_time = #{enterpriseDepCreateTime,jdbcType=TIMESTAMP},
+      enterprise_dep_edit_time = #{enterpriseDepEditTime,jdbcType=TIMESTAMP},
+      enterprise_dep_edit_id = #{enterpriseDepEditId,jdbcType=VARCHAR}
+    where enterprise_dep_id = #{enterpriseDepId,jdbcType=VARCHAR}
+  </update>
+</mapper>
